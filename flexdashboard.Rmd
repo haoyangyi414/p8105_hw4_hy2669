@@ -1,0 +1,67 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+library(p8105.datasets)
+library(tidyverse)
+library(plotly)
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp=0.7,
+  fig.height = 8,
+  out.width = '90%'
+)
+theme_set(theme_minimal())
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Problem 1
+  This is the link to my website: haoyangyi414.github.io
+  
+## Problem 2
+  Choose NY NOAA datasets to create a flexdashboard.
+```{r warning=F}
+data("ny_noaa")
+noaa_df = ny_noaa %>%
+  select(date,id,snow,prcp) %>% # select variables to make plots: snowfall(mm), precipitation (10 mm) and weather station ID
+  separate(date,into = c("year","month","day"),sep="-",remove = F) %>% # separate date variable into year, month and day.
+  mutate(year = as.numeric(year), month = as.numeric(month),day = as.numeric(day), prcp = prcp/10,
+           snow = as.integer(snow)) %>%  # convert type of variables,change unit of prcp
+  filter(year == 2010) %>% # use filter to get data in 2010
+  select(-date) %>%
+  drop_na(snow,prcp)
+
+```
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
