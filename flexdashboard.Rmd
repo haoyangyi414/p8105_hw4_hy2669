@@ -33,7 +33,7 @@ noaa_df %>%
    filter(snow > 0) %>%
    filter(id == c('US1NYAB0001','US1NYOG0002','US1NYDL0009','US1NYBM0011','USC00305426',
                   'USC00308932','USW00014768','US1NYCR0003')) %>% # Randomly pick 8 stations to plot the distribution of snowfall observed by each station
-   plot_ly(x = ~id, y = ~snow, color = ~id, type = 'box',colors = "viridis") # Use boxplot to show distribution of snowfall in 2010.
+   plot_ly(x = ~id, y = ~snow, color = ~id, type = 'box',colors = "viridis") # Use boxplot to show distribution of snowfall in 2010. It shows that values of snowfall were falls in 0-100 mm for most stations except one station which observed significantly larger amount of snowfall.
 ```
 
 Column {data-width=300}
@@ -44,7 +44,7 @@ Column {data-width=300}
 ```{r}
 scatter_smooth = noaa_df %>%
    filter(snow > 0 & prcp >0) %>%
-   ggplot(aes(x = prcp,y = snow))+geom_point(alpha = 0.4)+geom_smooth() # first plot the scatter, then add a smooth curve (method = 'gam') to briefly shows relationship between prcp and snow in 2010
+   ggplot(aes(x = prcp,y = snow))+geom_point(alpha = 0.4)+geom_smooth() # first plot the scatter, then add a smooth curve (method = 'gam') to briefly shows relationship between prcp and snow in 2010. It shows that there is positive correlation between precipitation and snowfall.
 ggplotly(scatter_smooth)
 ```
 
@@ -54,7 +54,7 @@ ggplotly(scatter_smooth)
 density_curve = noaa_df %>%
    filter(snow < 150 & snow > 0 & month == c(1,2,12)) %>% # exclude outliers (value > 150) which indicates extreme situation, also exclude 0 value since the most of snowfall = 0. Choose data from January, Febrary and December
    mutate(month = as.factor(month)) %>%
-   ggplot(aes(x = snow,fill = month))+geom_histogram(binwidth = 5) # Use histogram to show distribution of snowfall
+   ggplot(aes(x = snow,fill = month))+geom_histogram(binwidth = 5) # Use histogram to show distribution of snowfall. It shows that there is no significant differences between distribution of snowfall in Jan, Feb and Dec
 ggplotly(density_curve)
 ```
 
