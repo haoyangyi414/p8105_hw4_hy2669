@@ -5,23 +5,10 @@ output:
     orientation: columns
     vertical_layout: fill
 ---
-```{r setup, include = F}
+```{r  include = F}
 library(p8105.datasets)
 library(tidyverse)
 library(plotly)
-knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.asp=0.7,
-  fig.height = 8,
-  out.width = '90%'
-)
-theme_set(theme_minimal())
-options(
-  ggplot2.continuous.colour = "viridis",
-  ggplot2.continuous.fill = "viridis"
-)
-scale_colour_discrete = scale_colour_viridis_d
-scale_fill_discrete = scale_fill_viridis_d
 ```
 
 ```{r warning=F}
@@ -49,7 +36,7 @@ noaa_df %>%
    plot_ly(x = ~id, y = ~snow, color = ~id, type = 'box',colors = "viridis") # Use boxplot to show distribution of snowfall in 2010.
 ```
 
-Column {data-width=350}
+Column {data-width=300}
 -----------------------------------------------------------------------
 
 ### Relationship between precipitation and snowfall in 2010
