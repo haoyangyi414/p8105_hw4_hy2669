@@ -1,11 +1,11 @@
 ---
-title: "Untitled"
+title: "NOAA dataset-focus on data of snowfall and precipitation in 2010"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
 ---
-
+```{r setup, include = F}
 library(p8105.datasets)
 library(tidyverse)
 library(plotly)
@@ -24,11 +24,6 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-## Problem 1
-  This is the link to my website: haoyangyi414.github.io
-  
-## Problem 2
-  Choose NY NOAA datasets to create a flexdashboard.
 ```{r warning=F}
 data("ny_noaa")
 noaa_df = ny_noaa %>%
@@ -44,24 +39,35 @@ noaa_df = ny_noaa %>%
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### Chart A
+### Boxplot of snowfall observed in 8 randomly selected stations in 2010
 
 ```{r}
-
+noaa_df %>%
+   filter(snow > 0) %>%
+   filter(id == c('US1NYAB0001','US1NYOG0002','US1NYDL0009','US1NYBM0011','USC00305426',
+                  'USC00308932','USW00014768','US1NYCR0003')) %>% # Randomly pick 8 stations to plot the distribution of snowfall observed by each station
+   plot_ly(x = ~id, y = ~snow, color = ~id, type = 'box',colors = "viridis") # Use boxplot to show distribution of snowfall in 2010.
 ```
 
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart B
+### Relationship between precipitation and snowfall in 2010
 
 ```{r}
-
+scatter_smooth = noaa_df %>%
+   filter(snow > 0 & prcp >0) %>%
+   ggplot(aes(x = prcp,y = snow))+geom_point(alpha = 0.4)+geom_smooth() # first plot the scatter, then add a smooth curve (method = 'gam') to briefly shows relationship between prcp and snow in 2010
+ggplotly(scatter_smooth)
 ```
 
-### Chart C
+### Distribution of snowfall in Jan, Feb, Dec in 2010
 
 ```{r}
-
+density_curve = noaa_df %>%
+   filter(snow < 150 & snow > 0 & month == c(1,2,12)) %>% # exclude outliers (value > 150) which indicates extreme situation, also exclude 0 value since the most of snowfall = 0. Choose data from January, Febrary and December
+   mutate(month = as.factor(month)) %>%
+   ggplot(aes(x = snow,fill = month))+geom_histogram(binwidth = 5) # Use histogram to show distribution of snowfall
+ggplotly(density_curve)
 ```
 
